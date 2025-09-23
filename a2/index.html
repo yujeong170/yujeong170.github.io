@@ -1,1 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>a2 - study music player</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- fixed navigation bar -->
+    <nav class="fixed-nav" id="fixed-nav">
+      <div class="nav-content">
+        <span class="nav-title">Serenity</span>
+        <div class="nav-links">
+          <a href="#top" class="nav-link">Home</a>
+          <a href="#player" class="nav-link">Player</a>
+          <a href="#playlist" class="nav-link">Playlist</a>
+          <a href="#timer" class="nav-link">Timer</a>
+          <a href="#tasks" class="nav-link">Tasks</a>
+        </div>
+      </div>
+    </nav>
 
+    <div class="container" id="top">
+      <!-- header with branding appropriate for study context -->
+      <header class="header">
+        <h1>Serenity</h1>
+        <p>Your companion for focused study</p>
+      </header>
+
+      <div class="player-container" id="player">
+        <!-- Current track information display -->
+        <div class="now-playing">
+          <div class="track-info">
+            <h2 id="track-title">Above The Treetops</h2>
+          </div>
+        </div>
+
+        <!-- main audio element -->
+        <audio id="audio-player" preload="metadata">
+          <source src="#" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+
+        <!-- Custom progress bar for track position with animated fill -->
+        <div class="progress-container" id="progress-container">
+          <div class="progress-fill" id="progress-fill"></div>
+          <input
+            type="range"
+            class="progress-bar"
+            id="progress-bar"
+            min="0"
+            max="100"
+            value="0"
+          />
+          <div class="time-display">
+            <span id="current-time">0:00</span>
+            <span id="total-time">0:00</span>
+          </div>
+        </div>
+
+        <!-- main playback controls -->
+        <div class="controls">
+          <button class="control-btn" id="shuffle-btn" title="Shuffle">
+            <img
+              src="./icon/shuffle.svg"
+              alt="shuffle"
+              width="15"
+              height="15"
+            />
+          </button>
+          <button class="control-btn" id="prev-btn" title="Previous Track">
+            <img
+              src="./icon/previous.svg"
+              alt="previous"
+              width="15"
+              height="15"
+            />
+          </button>
+          <button
+            class="control-btn play-pause-btn"
+            id="play-pause-btn"
+            title="Play/Pause"
+          >
+            <img src="./icon/play.svg" alt="play" width="20" height="20" />
+          </button>
+          <button class="control-btn" id="next-btn" title="Next Track">
+            <img src="./icon/next.svg" alt="next" width="15" height="15" />
+          </button>
+          <button class="control-btn" id="repeat-btn" title="Repeat">
+            <img src="./icon/repeat.svg" alt="repeat" width="18" height="18" />
+          </button>
+        </div>
+
+        <!-- volume control with numerical display -->
+        <div class="volume-control">
+          <span>
+            <img src="./icon/volume.svg" alt="volume" width="15" height="15" />
+          </span>
+          <input
+            type="range"
+            class="volume-slider"
+            id="volume-slider"
+            min="0"
+            max="100"
+            value="70"
+          />
+          <span class="volume-display" id="volume-display">70</span>
+        </div>
+
+        <!-- playlist section -->
+        <div class="playlist" id="playlist">
+          <h3>Relaxation Playlist</h3>
+          <ul class="track-list" id="track-list">
+            <li
+              class="track-item active"
+              data-src="./music/Above The Treetops.mp3"
+              data-title="Above The Treetops"
+            >
+              <strong>Above The Treetops</strong>
+            </li>
+            <li
+              class="track-item"
+              data-src="./music/Raindrop Flower.mp3"
+              data-title="Raindrop Flower"
+            >
+              <strong>Raindrop Flower</strong>
+            </li>
+            <li
+              class="track-item"
+              data-src="./music/Queen's Garden.mp3"
+              data-title="Queen's Garden"
+            >
+              <strong>Queen's Garden</strong>
+            </li>
+            <li
+              class="track-item"
+              data-src="./music/When The Morning Comes.mp3"
+              data-title="When The Morning Comes"
+            >
+              <strong>When The Morning Comes</strong>
+            </li>
+            <li
+              class="track-item"
+              data-src="./music/Moonlight Shadow.mp3"
+              data-title="Moonlight Shadow"
+            >
+              <strong>Moonlight Shadow</strong>
+            </li>
+            <li
+              class="track-item"
+              data-src="./music/Aquarium.mp3"
+              data-title="Aquarium"
+            >
+              <strong>Aquarium</strong>
+            </li>
+            <li
+              class="track-item"
+              data-src="./music/Sleepywood.mp3"
+              data-title="Sleepywood"
+            >
+              <strong>Sleepywood</strong>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 
+            additional feature: focus timer
+            custom Pomodoro-style timer designed specifically for study sessions.
+            This feature sets this player apart by combining music with productivity tools.
+            The timer helps users maintain focus during study sessions, making it more 
+            than just a music player but a complete study companion.
+            -->
+        <div class="focus-timer" id="timer">
+          <h3>Focus Timer</h3>
+          <div class="timer-display" id="timer-display">60:00</div>
+          <div class="timer-controls">
+            <button class="timer-btn" id="timer-start">Start</button>
+            <button class="timer-btn" id="timer-pause">Pause</button>
+            <button class="timer-btn" id="timer-reset">Reset</button>
+            <button class="timer-btn" id="timer-60">1 hour</button>
+            <button class="timer-btn" id="timer-30">30 min</button>
+            <button class="timer-btn" id="timer-15">15 min</button>
+          </div>
+        </div>
+
+        <!--
+            additional feature: to-do list
+            productivity-focused to-do list integrated with the study environment.
+            users can track tasks while listening to relaxing music and using the focus timer,
+            creating a complete productivity workspace for study and work sessions.
+            -->
+        <div class="todo-container" id="tasks">
+          <h3>To-Do List</h3>
+          <div class="todo-input-section">
+            <input
+              type="text"
+              id="todo-input"
+              placeholder="Add a new task..."
+              maxlength="100"
+            />
+            <button class="todo-add-btn" id="todo-add">+</button>
+          </div>
+          <ul class="todo-list" id="todo-list">
+            <!-- tasks will be added here -->
+          </ul>
+          <div class="todo-stats">
+            <span id="todo-count">0</span> tasks remaining
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- back to top button -->
+    <button class="back-to-top" id="back-to-top" title="Back to Top">↑</button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
