@@ -1,1 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>a3</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- 
+    concept: a scroll-driven calendar
+    context: exploring the perception of time as a continuous flow through motion
+    the design relies on black & whithe to emphasize spatial rhythm.
+     interaction focus: scroll -> depth transition -> perception of time passing
+     -->
+    <div class="progress-bar">
+      <div class="progress" id="progressBar"></div>
+    </div>
 
+    <div class="scroll-area">
+      <div class="viewport" id="viewport"></div>
+    </div>
+
+    <script>
+      const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+
+      const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+      const viewport = document.getElementById("viewport");
+      const progressBar = document.getElementById("progressBar");
+      const monthCards = [];
+
+      for (let month = 0; month < 12; month++) {
+        const card = document.createElement("div");
+        card.className = "month-card";
+
+        const title = document.createElement("div");
+        title.className = "month-name";
+        title.textContent = monthNames[month];
+        card.appendChild(title);
+
+        const year = document.createElement("div");
+        year.className = "year";
+        year.textContent = "2026";
+        card.appendChild(year);
+
+        const calendar = document.createElement("div");
+        calendar.className = "calendar";
+
+        for (let i = 0; i < 7; i++) {
+          const dayName = document.createElement("div");
+          dayName.className = "day-name";
+          dayName.textContent = dayNames[i];
+          calendar.appendChild(dayName);
+        }
+
+        const firstDay = new Date(2026, month, 1).getDay();
+
+        const daysInMonth = new Date(2026, month + 1, 0).getDate();
+
+        for (let i = 0; i < firstDay; i++) {
+          const emptyDay = document.createElement("div");
+          emptyDay.className = "day empty";
+          calendar.appendChild(emptyDay);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dayCell = document.createElement("div");
+          dayCell.className = "day";
+          dayCell.textContent = day;
+          calendar.appendChild(dayCell);
+        }
+
+        card.appendChild(calendar);
+        viewport.appendChild(card);
+        monthCards.push(card);
+      }
+
+      function updateCalendar() {
+        const scrollPercent =
+          window.scrollY / (document.body.scrollHeight - window.innerHeight);
+
+        progressBar.style.width = scrollPercent * 100 + "%";
+
+        const currentPosition = scrollPercent * 11;
+
+        for (let i = 0; i < 12; i++) {
+          const card = monthCards[i];
+
+          const distance = i - currentPosition;
+
+          const zPosition = -distance * 2500;
+
+          let scale;
+          if (distance > 0) {
+            scale = 1 - distance * 0.8;
+          } else {
+            scale = 1 - distance * 1.5;
+          }
+
+          let opacity;
+          if (distance > 0.3) {
+            opacity = 1 - distance * 2;
+          } else if (distance > -0.3) {
+            opacity = 1;
+          } else {
+            opacity = 0.3 - distance * 0.5;
+          }
+
+          card.style.transform = `
+                    translate(-50%, -50%)
+                    translateZ(${zPosition}px)
+                    scale(${scale})
+                `;
+          card.style.opacity = opacity;
+
+          if (distance > 1 || distance < -1.5) {
+            card.style.display = "none";
+          } else {
+            card.style.display = "block";
+          }
+        }
+      }
+
+      window.addEventListener("scroll", updateCalendar);
+
+      updateCalendar();
+    </script>
+  </body>
+</html>
